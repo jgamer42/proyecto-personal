@@ -5,3 +5,10 @@ services:
     build: scraper
     volumes: 
       - ./scraper:/app/
+    environment: 
+      DB_URI: "mongodb://db:27017"
+  
+  db:
+    image: mongo
+    volumes: 
+      - ./db:/data/db
