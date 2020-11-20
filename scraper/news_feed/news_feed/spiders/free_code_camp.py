@@ -3,22 +3,20 @@ from time import strftime , gmtime
 import hashlib
 from ..items import TitularItem
 class desde_linux(scrapy.Spider):
-    name = 'we_live_security'
-    start_urls = ["https://www.welivesecurity.com/la-es/"]
+    name = 'free_code_camp'
+    start_urls = ["https://www.freecodecamp.org/news/"]
 
     def parse(self,response):
         items = TitularItem()
-        links = response.xpath("//article/a/@href").getall()
-        titles = response.xpath("//article/a/div/div/h2/text()").getall()
+        links=response.xpath("//h2[@class='post-card-title']/a/@href").getall()[:5]
+        titles =response.xpath("//h2[@class='post-card-title']/a/text()").getall()[:5]
         i = 0
         for title in titles:
-            items["link"] = links[i].lstrip()
+            items["link"] = "https://www.freecodecamp.org/"+links[i].lstrip()
             items["title"] = title.lstrip()
-            items["news_paper"] = "we_live_security"
+            items["news_paper"] = "free_code_camp"
             items["date"] = strftime("%Y-%m-%d",gmtime())
             _id = hashlib.md5(title.encode())
             items["_id"] = _id.hexdigest()
             i = i + 1
             yield items
-
-        
