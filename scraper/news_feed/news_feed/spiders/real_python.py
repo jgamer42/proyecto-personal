@@ -9,20 +9,13 @@ class real_python(scrapy.Spider):
     ]
 
     def parse(self,response):
-        items = TitularItem()
+        
         main = self.main_article(response)
         others = self.other_articles(response)
         others.append(main)
-        i = 0
         for article in others:
-            items["link"] = article["link"]
-            items["title"] = article["title"]
-            items["news_paper"] = article["news_paper"]
-            items["date"] = article["date"]
-            _id = hashlib.md5(article["title"].encode())
-            items["_id"] = _id.hexdigest()
-            i = i + 1
-            yield items
+            yield response.follow(url=article["link"],callback=self.sumary,cb_kwargs = {'data':article})
+            
     
     def main_article(self,response):
         article = {
@@ -49,3 +42,21 @@ class real_python(scrapy.Spider):
             i = i + 1
             articles.append(article)
         return articles
+    
+    def sumary(self,response,**kwargs):
+        items = TitularItem()
+        other_text = response.xpath('//div[@class="article-body"]/section[@class="section2"]/p/text()').getall()
+        if other_text == []:
+            sumary = "no disponible"
+        else:
+            other_text = "".join(other_text)
+            sumary = sumarize(other_text,"english")
+        items["link"] = article["link"]
+        items["title"] = article["title"]
+        items["news_paper"] = article["news_paper"]
+        items["date"] = article["date"]
+        _id = hashlib.md5(article["title"].encode())
+        items["_id"] = _id.hexdigest()
+        items["sumary"]=sumary
+        yield items
+        

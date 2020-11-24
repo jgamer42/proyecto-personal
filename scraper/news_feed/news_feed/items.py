@@ -18,3 +18,4 @@ class TitularItem(scrapy.Item):
     title = scrapy.Field()
     link = scrapy.Field()
     _id = scrapy.Field()
+    sumary = scrapy.Field()
