@@ -1,6 +1,9 @@
 import re
 import nltk
 import heapq
+nltk.download('punkt')
+nltk.download('stopwords')
+
 def sumarize(text,languaje):
     article_text = re.sub(r'\[[0-9]*\]', ' ', text)
     article_text = re.sub(r'\s+', ' ', article_text)

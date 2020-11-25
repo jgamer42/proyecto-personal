@@ -2,10 +2,11 @@ import scrapy
 from time import strftime , gmtime
 import hashlib
 from ..items import TitularItem
+from ..sumarize import sumarize
 class real_python(scrapy.Spider):
     name = 'real_python'
     start_urls = [
-        "https://realpython.com/"
+        "https://realpython.com"
     ]
 
     def parse(self,response):
@@ -51,11 +52,11 @@ class real_python(scrapy.Spider):
         else:
             other_text = "".join(other_text)
             sumary = sumarize(other_text,"english")
-        items["link"] = article["link"]
-        items["title"] = article["title"]
-        items["news_paper"] = article["news_paper"]
-        items["date"] = article["date"]
-        _id = hashlib.md5(article["title"].encode())
+        items["link"] = kwargs["data"]["link"]
+        items["title"] = kwargs["data"]["title"]
+        items["news_paper"] = kwargs["data"]["news_paper"]
+        items["date"] = kwargs["data"]["date"]
+        _id = hashlib.md5(kwargs["data"]["title"].encode())
         items["_id"] = _id.hexdigest()
         items["sumary"]=sumary
         yield items
