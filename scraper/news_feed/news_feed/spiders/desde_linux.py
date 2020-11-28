@@ -33,4 +33,3 @@ class desde_linux(scrapy.Spider):
             sumary = sumarize(text,"spanish")
         items["sumary"] = sumary
         yield items
-#TODO revisar el error aqui
