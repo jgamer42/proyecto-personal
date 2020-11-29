@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
+	b "./routes"
 	"github.com/gorilla/mux"
 )
 
@@ -56,6 +57,7 @@ func getOneTask(response http.ResponseWriter, request *http.Request) {
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
 		fmt.Fprintf(response, "dato no valido")
+		return
 	} else {
 		for _, tarea := range tareas {
 			if tarea.ID == id {
@@ -70,12 +72,35 @@ func getOneTask(response http.ResponseWriter, request *http.Request) {
 	}
 
 }
+
+func deleteTask(response http.ResponseWriter, request *http.Request) {
+	vars := mux.Vars(request)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		fmt.Fprintf(response, "dato no valido")
+		return
+	} else {
+		for i, tarea := range tareas {
+			if tarea.ID == id {
+				response.Header().Set("Content-Type", "application/json")
+				response.WriteHeader(http.StatusAccepted)
+				tareas = append(tareas[:i], tareas[i+1:]...)
+				fmt.Fprintf(response, "eliminado %v", id)
+				return
+			}
+		}
+		response.Header().Set("Content-Type", "application/json")
+		response.WriteHeader(http.StatusAccepted)
+		fmt.Fprintf(response, "tarea no encontrada")
+	}
+}
 func main() {
-	router := mux.NewRouter().StrictSlash(true)
+	/*router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", indexRoute).Methods("GET")
 	router.HandleFunc("/tareas", getTask).Methods("GET")
 	router.HandleFunc("/create", createTask).Methods("POST")
 	router.HandleFunc("/get/{id}", getOneTask).Methods("GET")
-	log.Fatal(http.ListenAndServe(":3000", router))
-
+	router.HandleFunc("/delete/{id}", deleteTask).Methods("DELETE")
+	log.Fatal(http.ListenAndServe(":3000", router))*/
+	b.GetAllNews()
 }

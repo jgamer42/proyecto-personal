@@ -1,10 +1,13 @@
-package main
+package routes
 
 import (
 	"fmt"
-	"net/http"
+	"os"
 )
 
-func newsFeed(response http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(response, "hola mundo")
+//GetAllNews ruta encargada de traer todas las noticias
+func GetAllNews() {
+	uri := os.Getenv("DB_URI")
+	fmt.Println("hola mundo")
+	fmt.Println(uri)
 }
