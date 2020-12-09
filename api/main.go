@@ -12,22 +12,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type Task struct {
-	ID      int    `json:ID`
-	Name    string `json:Name`
-	Content string `json:Content`
-}
-
-type AllTasks []Task
-
-var tareas = AllTasks{
-	{
-		ID:      1,
-		Name:    "tarea 1",
-		Content: "lorem",
-	},
-}
-
 func indexRoute(response http.ResponseWriter, request *http.Request) {
 	response.WriteHeader(http.StatusAccepted)
 	fmt.Fprintf(response, "bienvenido")
