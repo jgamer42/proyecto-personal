@@ -2,7 +2,9 @@ import scrapy
 from time import strftime , gmtime
 import hashlib
 from ..items import TitularItem
-from ..sumarize import sumarize
+import site
+site.addsitedir("/app")
+from nlp.sumarize import sumarize
 class real_python(scrapy.Spider):
     name = 'real_python'
     start_urls = [

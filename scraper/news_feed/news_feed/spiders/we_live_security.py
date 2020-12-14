@@ -2,7 +2,9 @@ import scrapy
 from time import strftime , gmtime
 import hashlib
 from ..items import TitularItem
-from ..sumarize import sumarize
+import site
+site.addsitedir("/app")
+from nlp.sumarize import sumarize
 class desde_linux(scrapy.Spider):
     name = 'we_live_security'
     start_urls = ["https://www.welivesecurity.com/la-es/"]

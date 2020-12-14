@@ -1,7 +1,7 @@
-FROM golang
-WORKDIR /api
+FROM node
+WORKDIR /app
+COPY package.json /app
+RUN npm install
 COPY . .
-RUN go get -u github.com/gorilla/mux
-RUN go get go.mongodb.org/mongo-driver/mongo
-RUN go build main.go
-CMD [ "./main" ]
+EXPOSE 5000
+CMD node index.js
